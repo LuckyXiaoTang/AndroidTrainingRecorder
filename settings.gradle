@@ -1,0 +1,2 @@
+include ':permission', ':baselib'
+rootProject.name='AndroidTrainingRecorder'

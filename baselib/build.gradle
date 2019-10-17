@@ -1,0 +1,58 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+android {
+    compileSdkVersion 28
+    buildToolsVersion "29.0.2"
+
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    ///////////////////// androidx start /////////////////////
+    // support v7
+    api 'androidx.appcompat:appcompat:1.1.0'
+    // design
+    api 'com.google.android.material:material:1.0.0'
+    // support v4
+    api 'androidx.legacy:legacy-support-v4:1.0.0'
+    // recyclerview
+    api 'androidx.recyclerview:recyclerview:1.0.0'
+    // constraintlayout
+    api 'androidx.constraintlayout:constraintlayout:1.1.3'
+    ///////////////////// androidx end /////////////////////
+
+    api 'androidx.core:core-ktx:1.1.0'
+    api 'androidx.constraintlayout:constraintlayout:1.1.3'
+
+    // retrofit
+    api 'com.squareup.retrofit2:retrofit:2.6.0'
+    api 'com.squareup.retrofit2:converter-moshi:2.6.0'
+    api 'com.squareup.moshi:moshi-kotlin:1.8.0'
+    api 'com.squareup.okhttp3:logging-interceptor:3.11.0'
+
+    // coroutines
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0'
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0'
+    // lifecycler
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-beta01"
+    api 'androidx.lifecycle:lifecycle-extensions:2.2.0-beta01'
+
+}
