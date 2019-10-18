@@ -1,22 +1,24 @@
 package com.zero.tzz.training.permission
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.Manifest
+import com.zero.tzz.training.permission.core.PermissionFailed
+import com.zero.tzz.training.permission.core.PermissionHelper
+import com.zero.tzz.training.permission.core.PermissionSucceed
 
-class MainActivity : AppCompatActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        // 动态请求权限
-        /*PermissionHelper
+/**
+ *
+ * @author Zero_Tzz
+ * @date 2019-10-18 17:34
+ * @description Test
+ */
+object Test {
+    fun test() {
+        PermissionHelper
             .permissions(Manifest.permission.CALL_PHONE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            .request(this)*/
-
-        Test.test()
+            .request(this)
     }
-/*
+
+
     @PermissionSucceed(Manifest.permission.CALL_PHONE)
     fun aaa1() {
         println("aaaaa1")
@@ -35,5 +37,5 @@ class MainActivity : AppCompatActivity() {
     @PermissionFailed(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     fun bbb2() {
         println("bbbbb2")
-    }*/
+    }
 }

@@ -32,7 +32,7 @@ abstract class BaseFragment : Fragment() {
         initEventAndData()
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         mActivity = context as Activity
     }
