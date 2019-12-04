@@ -14,6 +14,7 @@ class PermissionHelper private constructor() {
         private val mPermissions = arrayListOf<String>()
 
         /** 添加请求权限 */
+        @JvmStatic
         fun permissions(vararg permissions: String): PermissionHelper {
             mPermissions.addAll(permissions)
             return PermissionHelper()

@@ -14,7 +14,8 @@ class MainActivity : AppCompatActivity() {
             .permissions(Manifest.permission.CALL_PHONE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
             .request(this)*/
 
-        Test.test()
+//        Test.test()
+        J_Test().test()
     }
 /*
     @PermissionSucceed(Manifest.permission.CALL_PHONE)

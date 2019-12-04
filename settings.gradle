@@ -1,2 +1,2 @@
-include ':permission', ':baselib'
+include ':permission', ':baselib', ':custom', ':video'
 rootProject.name='AndroidTrainingRecorder'

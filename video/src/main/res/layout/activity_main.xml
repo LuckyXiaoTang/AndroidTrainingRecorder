@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btn_simple_player"
+        android:text="简单播放视频"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/btn_simple_render_1"
+        android:text="OpenGL渲染三角形"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_simple_render_2"
+        android:text="OpenGL渲染图片"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_simple_render_3"
+        android:text="OpenGL渲染视频"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_simple_render_4"
+        android:text="OpenGL渲染多个视频"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_simple_render_5"
+        android:text="EGL渲染视频"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
