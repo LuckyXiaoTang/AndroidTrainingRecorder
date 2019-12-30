@@ -47,8 +47,7 @@ class HttpRetrofit(private val context: Context) {
     fun <T> createService(clazz: Class<T>): T {
         return Retrofit.Builder()
             .client(client)
-            .baseUrl("http://baidu.com")
-//            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl("http://xxxxxx.xxx")
             .build().create(clazz)
     }
 }
