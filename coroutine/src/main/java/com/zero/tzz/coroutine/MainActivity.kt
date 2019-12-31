@@ -11,13 +11,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         tv.setOnClickListener {
-            HttpManager.getDefault().get<Bean>("https://wanandroid.com/wxarticle/chapters/json") {
-                success {
+            a()
+        }
+    }
 
-                }
-                error {
-
-                }
+    private fun a() {
+        HttpManager.get<Bean>("https://wanandroid.com/wxarticle/chapters/json") {
+            success {
+                println(it.toString())
+            }
+            error {
+                println(it)
             }
         }
     }

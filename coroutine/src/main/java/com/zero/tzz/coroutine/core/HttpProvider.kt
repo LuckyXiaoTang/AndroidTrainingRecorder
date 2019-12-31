@@ -6,24 +6,20 @@ import java.lang.ref.WeakReference
 /**
  * Created by Tzz on 2019/12/30.
  */
+@PublishedApi
 internal object HttpProvider {
     private lateinit var mApp: Application
-    private var mWeakHttp: WeakReference<HttpTest>? = null
+    private var mWeakHttp: WeakReference<HttpLifecycle>? = null
     fun init(application: Application) {
         mApp = application
-        mWeakHttp = WeakReference(HttpTest())
+        mWeakHttp = WeakReference(HttpLifecycle())
     }
 
     fun get(): Application = mApp
-    fun getHttp(): HttpTest {
+    fun getHttp(): HttpLifecycle {
         if (mWeakHttp == null || mWeakHttp!!.get() == null) {
-            mWeakHttp = WeakReference(HttpTest())
+            mWeakHttp = WeakReference(HttpLifecycle())
         }
         return mWeakHttp!!.get()!!
-    }
-
-    fun clearHttp() {
-        mWeakHttp?.clear()
-        mWeakHttp = null
     }
 }

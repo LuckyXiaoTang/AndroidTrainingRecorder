@@ -13,9 +13,10 @@ import okhttp3.ResponseBody
 /**
  * Created by Tzz on 2019/12/30.
  */
+@PublishedApi
 internal class VM : ViewModel(), LifecycleObserver {
 
-    private val lifecycles: MutableList<LifecycleOwner> = mutableListOf()
+    val lifecycles: MutableList<LifecycleOwner> = mutableListOf()
     fun addLifecycle(lifecycle: LifecycleOwner) {
         lifecycles.add(lifecycle)
     }

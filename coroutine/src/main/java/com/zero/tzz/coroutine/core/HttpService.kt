@@ -1,10 +1,8 @@
 package com.zero.tzz.coroutine.core
 
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.QueryMap
-import retrofit2.http.Url
+import retrofit2.http.*
 
 /**
  *
@@ -16,6 +14,9 @@ import retrofit2.http.Url
 internal interface HttpService {
     @POST
     suspend fun post(@Url url: String, @QueryMap map: Map<String, String> = HashMap()): ResponseBody
+
+    @POST
+    suspend fun post(@Url url: String, @Body messageJson: RequestBody): ResponseBody
 
     @GET
     suspend fun get(@Url url: String, @QueryMap map: Map<String, String> = HashMap()): ResponseBody

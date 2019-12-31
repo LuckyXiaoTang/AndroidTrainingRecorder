@@ -10,7 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 /**
  * Created by Tzz on 2019/12/30.
  */
-internal class HttpTest : Application.ActivityLifecycleCallbacks {
+@PublishedApi
+internal class HttpLifecycle : Application.ActivityLifecycleCallbacks {
 
     private val maps: MutableMap<Activity, VM> = mutableMapOf()
     private var mTopActivity: Activity? = null
@@ -19,7 +20,6 @@ internal class HttpTest : Application.ActivityLifecycleCallbacks {
 
     init {
         HttpProvider.get().registerActivityLifecycleCallbacks(this)
-        println("init")
     }
 
     fun getViewModel(): VM? {
@@ -29,9 +29,7 @@ internal class HttpTest : Application.ActivityLifecycleCallbacks {
     fun getHttpService(): HttpService = mRetrofit
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        println("onActivityCreated")
         if (activity is AppCompatActivity) {
-            println("onActivityCreated2")
             val viewModel = ViewModelProvider(activity).get(VM::class.java)
             activity.lifecycle.addObserver(viewModel)
             viewModel.addLifecycle(activity)
@@ -54,14 +52,11 @@ internal class HttpTest : Application.ActivityLifecycleCallbacks {
     }
 
     override fun onActivityDestroyed(activity: Activity) {
-        println("onActivityDestroyed")
         if (activity is AppCompatActivity) {
             maps.get(activity)?.let {
                 activity.lifecycle.removeObserver(it as LifecycleObserver)
                 it.removeLifecycle(activity)
             }
-            HttpProvider.get().unregisterActivityLifecycleCallbacks(this)
-            HttpProvider.clearHttp()
         } else {
             throw IllegalStateException("activity must be extends AppCompatActivity")
         }

@@ -8,7 +8,9 @@ import androidx.lifecycle.Observer
  * Created by Tzz on 2019/12/30.
  */
 class LiveDataDsl<T>(private val lifecycles: MutableList<LifecycleOwner>?) {
+    @PublishedApi
     internal val successLiveData = MutableLiveData<T>()
+    @PublishedApi
     internal val errorLiveData = MutableLiveData<String>()
     fun success(block: (T) -> Unit) {
         lifecycles?.forEach { successLiveData.observe(it, Observer(block)) }
