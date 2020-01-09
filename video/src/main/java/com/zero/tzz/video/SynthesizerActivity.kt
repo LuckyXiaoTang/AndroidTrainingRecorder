@@ -47,7 +47,7 @@ class SynthesizerActivity : AppCompatActivity(), MMuxer.IMuxerStateListener {
     }
 
     private fun start() {
-        btn_start.text = "正在解码"
+        btn_start.text = "正在编码"
         btn_start.isEnabled = false
         initVideo()
         initAudio()

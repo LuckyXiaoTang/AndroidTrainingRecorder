@@ -4,8 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.marginLeft
-import androidx.core.view.marginTop
 import kotlin.math.max
 
 /**
@@ -74,16 +72,16 @@ class FlowLayout : ViewGroup {
         val size = mLineViews.size
         val pl = paddingLeft
         val pt = paddingTop
-        for (i in 0 until size) {
-            val child = mLineViews[i]
-
-            val lc = pl + child.marginLeft
-            val tc = pt + child.marginTop
-            val rc = lc + child.measuredWidth
-            val bc = tc + child.measuredHeight
-
-            child.layout(lc, tc, rc, bc)
-
-        }
+//        for (i in 0 until size) {
+//            val child = mLineViews[i]
+//
+//            val lc = pl + child.marginLeft
+//            val tc = pt + child.marginTop
+//            val rc = lc + child.measuredWidth
+//            val bc = tc + child.measuredHeight
+//
+//            child.layout(lc, tc, rc, bc)
+//
+//        }
     }
 }
