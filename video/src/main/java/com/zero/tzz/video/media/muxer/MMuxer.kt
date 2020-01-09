@@ -14,7 +14,7 @@ import java.nio.ByteBuffer
  * @date 2019-11-28 11:49
  * @description MMuxer
  */
-class MMuxer {
+class MMuxer(private val mStateListener: IMuxerStateListener? = null) {
     private val TAG = "MMuxer"
     /** 输出文件路径 */
     private var mFilePath: String? = null
@@ -94,6 +94,7 @@ class MMuxer {
             mMuxer?.start()
             mIsStart = true
             Log.d(TAG, "开启混合器")
+            mStateListener?.onMuxerStart()
         }
     }
 
@@ -107,8 +108,14 @@ class MMuxer {
             mMuxer?.release()
             mMuxer = null
             Log.d(TAG, "停止混合器")
+            mStateListener?.onMuxerFinish()
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    interface IMuxerStateListener {
+        fun onMuxerStart() {}
+        fun onMuxerFinish() {}
     }
 }

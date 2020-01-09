@@ -1,7 +1,6 @@
 package com.zero.tzz.video.media.extractor
 
 import android.media.MediaFormat
-import com.zero.tzz.video.media.IExtractor
 import java.nio.ByteBuffer
 
 /**

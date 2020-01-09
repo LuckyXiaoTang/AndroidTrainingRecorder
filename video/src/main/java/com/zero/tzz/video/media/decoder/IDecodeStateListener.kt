@@ -1,4 +1,6 @@
-package com.zero.tzz.video.media
+package com.zero.tzz.video.media.decoder
+
+import com.zero.tzz.video.media.Frame
 
 /**
  * 解码状态回调接口
@@ -13,5 +15,6 @@ interface IDecodeStateListener {
     fun decodeError(decoder: BaseDecoder?, error: String)
     fun decodeFinished(decoder: BaseDecoder?)
     fun decoderDestroy(decoder: BaseDecoder?)
+    fun decodeOneFrame(decodeJob: BaseDecoder?, frame: Frame)
 
 }

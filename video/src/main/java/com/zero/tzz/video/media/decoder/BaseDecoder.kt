@@ -1,9 +1,11 @@
-package com.zero.tzz.video.media
+package com.zero.tzz.video.media.decoder
 
 import android.media.MediaCodec
 import android.media.MediaFormat
 import android.os.SystemClock
 import android.util.Log
+import com.zero.tzz.video.media.Frame
+import com.zero.tzz.video.media.extractor.IExtractor
 import java.io.File
 import java.nio.ByteBuffer
 
@@ -66,6 +68,9 @@ abstract class BaseDecoder(val mFilePath: String) : IDecoder {
     /** 流数据是否结束 */
     private var mIsEOS = false
 
+    /** 是否需要音视频渲染同步 */
+    private var mSyncRender = true
+
 
     override fun run() {
         if (mState == DecodeState.STOP) {
@@ -106,11 +111,19 @@ abstract class BaseDecoder(val mFilePath: String) : IDecoder {
             val index = pullBufferFromDecoder()
             if (index >= 0 && mOutputBuffers != null) {
                 // 音视频同步
-                if (mState == DecodeState.DECODING) {
+                if (mSyncRender && mState == DecodeState.DECODING) {
                     sleepRender()
                 }
                 // 4.渲染
-                render(mOutputBuffers!![index], mBufferInfo)
+                if (mSyncRender) {
+                    render(mOutputBuffers!![index], mBufferInfo)
+                }
+
+                val frame = Frame()
+                frame.buffer = mOutputBuffers!![index]
+                frame.setBufferInfo(mBufferInfo)
+                mStateDecodeListener?.decodeOneFrame(this, frame)
+
                 // 5.释放
                 mCodec?.releaseOutputBuffer(index, true)
                 if (mState == DecodeState.START) {
@@ -318,6 +331,11 @@ abstract class BaseDecoder(val mFilePath: String) : IDecoder {
 
     override fun setDecodeListener(listener: IDecodeStateListener?) {
         mStateDecodeListener = listener
+    }
+
+    override fun withoutSync(): IDecoder {
+        mSyncRender = false
+        return this
     }
 
     /** 主要检查子类的一些空值情况 */

@@ -1,6 +1,7 @@
 package com.zero.tzz.video.opengl.egl
 
 import android.opengl.GLES20
+import android.view.Surface
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.View
@@ -25,6 +26,8 @@ class CustomGLRender : SurfaceHolder.Callback {
     /** 绘制器列表 */
     private val mDrawers = mutableListOf<IDrawer>()
 
+    private var mSurface: Surface? = null
+
     init {
         mRenderThread.start()
     }
@@ -44,6 +47,21 @@ class CustomGLRender : SurfaceHolder.Callback {
         })
     }
 
+    fun setSurface(surface: Surface, width: Int, height: Int) {
+        mSurface = surface
+        mRenderThread.onSurfaceCreated()
+        mRenderThread.onSurfaceChanged(width, height)
+    }
+
+    /** 设置渲染模式 RenderMode见下面 */
+    fun setRenderMode(renderMode: RenderMode) {
+        mRenderThread.setRenderMode(renderMode)
+    }
+
+    fun notitySwap(timeUs: Long) {
+        mRenderThread.notifySwap(timeUs)
+    }
+
     fun addDrawer(drawer: IDrawer) {
         mDrawers.add(drawer)
     }
@@ -60,7 +78,13 @@ class CustomGLRender : SurfaceHolder.Callback {
         mRenderThread.onSurfaceDestroyed()
     }
 
+    fun stop() {
+        mRenderThread.onSurfaceStop()
+        mSurface = null
+    }
+
     inner class RenderThread : Thread() {
+        private var mRenderMode: RenderMode = RenderMode.RENDER_WHEN_DIRTY
         /** 渲染状态 */
         private var mState = RenderState.NO_SURFACE
 
@@ -71,6 +95,9 @@ class CustomGLRender : SurfaceHolder.Callback {
 
         /** 是否已经创建过EGL上下文，用于判断是否需要重新生成纹理ID */
         private var mCreatedEGLContext = false
+
+        private var mCurTimestamp = 0L
+        private var mLastTimestamp = 0L
 
         private var mWidth = 0
         private var mHeight = 0
@@ -132,7 +159,12 @@ class CustomGLRender : SurfaceHolder.Callback {
                     }
                     RenderState.RENDERING -> {
                         // 4.渲染
-                        rendering()
+                        render()
+
+                        // 如果是 `RENDER_WHEN_DIRTY` 模式，渲染后，把线程挂起，等待下一帧
+                        if (mRenderMode == RenderMode.RENDER_WHEN_DIRTY) {
+                            waitRender()
+                        }
                     }
                     RenderState.SURFACE_DESTROY -> {
                         // 5.销毁Surface 解绑上下文
@@ -166,7 +198,7 @@ class CustomGLRender : SurfaceHolder.Callback {
                     mCreatedEGLContext = true
                     GLES20.glClearColor(0f, 0f, 0f, 0f)
                     GLES20.glEnable(GLES20.GL_BLEND)
-                    GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA,GLES20.GL_ONE_MINUS_SRC_ALPHA)
+                    GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA)
                     generateTextureID()
                 }
             }
@@ -176,10 +208,26 @@ class CustomGLRender : SurfaceHolder.Callback {
             mDrawers.forEach { it.setWorldSise(mWidth, mHeight) }
         }
 
-        private fun rendering() {
-            GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT or GLES20.GL_DEPTH_BUFFER_BIT)
-            mDrawers.forEach { it.draw() }
-            mEGLSurface?.swapBuffer()
+        /** 根据渲染模式和当前帧的时间戳判断是否需要重新刷新画面 */
+        private fun render() {
+            val render = if (mRenderMode == RenderMode.RENDER_CONTINUOUSLY) {
+                true
+            } else {
+                synchronized(mCurTimestamp) {
+                    if (mCurTimestamp > mLastTimestamp) {
+                        mLastTimestamp = mCurTimestamp
+                        true
+                    } else {
+                        false
+                    }
+                }
+            }
+            if (render) {
+                GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT or GLES20.GL_DEPTH_BUFFER_BIT)
+                mDrawers.forEach { it.draw() }
+                mEGLSurface?.setTimestamp(mCurTimestamp)
+                mEGLSurface?.swapBuffer()
+            }
         }
 
         private fun destroyEGLSurface() {
@@ -189,6 +237,14 @@ class CustomGLRender : SurfaceHolder.Callback {
 
         private fun releaseEGL() {
             mEGLSurface?.release()
+        }
+
+        fun setRenderMode(renderMode: RenderMode) {
+            mRenderMode = renderMode
+        }
+
+        fun notifySwap(timeUs: Long) {
+
         }
 
         //////////////////////////////////////////// OpenGL相关 ////////////////////////////////////////////
@@ -207,5 +263,10 @@ class CustomGLRender : SurfaceHolder.Callback {
         RENDERING,// 初始化完毕，可以渲染
         SURFACE_DESTROY,// Surface销毁
         STOP,// 停止渲染
+    }
+
+    enum class RenderMode {
+        RENDER_CONTINUOUSLY,
+        RENDER_WHEN_DIRTY
     }
 }

@@ -45,5 +45,9 @@ class MainActivity : AppCompatActivity() {
             val i = Intent(this, OpenGLSoulPlayerActivity::class.java)
             startActivity(i)
         }
+        btn_simple_render_7.setOnClickListener {
+            val i = Intent(this, SynthesizerActivity::class.java)
+            startActivity(i)
+        }
     }
 }

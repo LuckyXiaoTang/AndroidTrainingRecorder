@@ -37,6 +37,13 @@ class EGLSurfaceHolder {
         mEGLSurface?.let { mEGLCore.swapBuffer(it) }
     }
 
+    fun setTimestamp(timeStamp: Long) {
+        mEGLSurface?.let {
+            mEGLCore.setPresentationTimestamp(it, timeStamp * 1000)
+        }
+
+    }
+
     fun destoryEGLSurface() {
         mEGLSurface?.let {
             mEGLCore.destoryEGLSurface(it)

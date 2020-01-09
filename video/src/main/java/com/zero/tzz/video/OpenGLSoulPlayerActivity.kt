@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.util.Size
 import android.view.Surface
 import androidx.appcompat.app.AppCompatActivity
-import com.zero.tzz.video.media.IDecoder
+import com.zero.tzz.video.media.decoder.IDecoder
 import com.zero.tzz.video.media.decoder.AudioDecoder
 import com.zero.tzz.video.media.decoder.VideoDecoder
 import com.zero.tzz.video.opengl.SimpleRender

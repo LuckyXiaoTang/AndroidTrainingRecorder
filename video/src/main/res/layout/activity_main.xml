@@ -45,4 +45,10 @@
         android:text="OpenGL 离屏渲染视频"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_simple_render_7"
+        android:text="OpenGL 编码器播放"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

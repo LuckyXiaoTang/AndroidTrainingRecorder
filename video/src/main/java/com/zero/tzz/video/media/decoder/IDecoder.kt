@@ -1,4 +1,4 @@
-package com.zero.tzz.video.media
+package com.zero.tzz.video.media.decoder
 
 import android.media.MediaFormat
 
@@ -53,5 +53,10 @@ interface IDecoder : Runnable {
     fun getFilePath(): String
 
     /** 设置状态监听 */
-    fun setDecodeListener(listener:IDecodeStateListener?)
+    fun setDecodeListener(listener: IDecodeStateListener?)
+
+    /**
+     * 无需音视频同步
+     */
+    fun withoutSync(): IDecoder
 }

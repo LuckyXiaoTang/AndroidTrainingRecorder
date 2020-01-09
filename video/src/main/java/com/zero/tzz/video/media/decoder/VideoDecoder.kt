@@ -6,8 +6,7 @@ import android.util.Log
 import android.view.Surface
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-import com.zero.tzz.video.media.BaseDecoder
-import com.zero.tzz.video.media.IExtractor
+import com.zero.tzz.video.media.extractor.IExtractor
 import com.zero.tzz.video.media.extractor.VideoExtractor
 import java.nio.ByteBuffer
 

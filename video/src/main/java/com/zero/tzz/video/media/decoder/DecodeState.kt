@@ -1,4 +1,4 @@
-package com.zero.tzz.video.media
+package com.zero.tzz.video.media.decoder
 
 /**
  * 解码状态
