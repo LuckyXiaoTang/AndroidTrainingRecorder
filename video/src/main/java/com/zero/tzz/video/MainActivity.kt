@@ -49,5 +49,9 @@ class MainActivity : AppCompatActivity() {
             val i = Intent(this, SynthesizerActivity::class.java)
             startActivity(i)
         }
+        btn_simple_render_8.setOnClickListener {
+            val i = Intent(this, FFmpegActivity::class.java)
+            startActivity(i)
+        }
     }
 }

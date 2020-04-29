@@ -1,54 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="16dp"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
-    <Button
-        android:id="@+id/btn_simple_player"
-        android:text="简单播放视频"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <Button
-        android:id="@+id/btn_simple_render_1"
-        android:text="OpenGL渲染三角形"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_simple_render_2"
-        android:text="OpenGL渲染图片"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btn_simple_player"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="简单播放视频" />
 
-    <Button
-        android:id="@+id/btn_simple_render_3"
-        android:text="OpenGL渲染视频"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btn_simple_render_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="OpenGL渲染三角形" />
 
-    <Button
-        android:id="@+id/btn_simple_render_4"
-        android:text="OpenGL渲染多个视频"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btn_simple_render_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="OpenGL渲染图片" />
 
-    <Button
-        android:id="@+id/btn_simple_render_5"
-        android:text="EGL渲染视频"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btn_simple_render_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="OpenGL渲染视频" />
 
-    <Button
-        android:id="@+id/btn_simple_render_6"
-        android:text="OpenGL 离屏渲染视频"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btn_simple_render_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="OpenGL渲染多个视频" />
 
-    <Button
-        android:id="@+id/btn_simple_render_7"
-        android:text="OpenGL 编码器播放"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+        <Button
+            android:id="@+id/btn_simple_render_5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="EGL渲染视频" />
+
+        <Button
+            android:id="@+id/btn_simple_render_6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="OpenGL 离屏渲染视频" />
+
+        <Button
+            android:id="@+id/btn_simple_render_7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="OpenGL 编码器播放" />
+
+        <Button
+            android:id="@+id/btn_simple_render_8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="FFMPEG" />
+    </LinearLayout>
+
+</ScrollView>

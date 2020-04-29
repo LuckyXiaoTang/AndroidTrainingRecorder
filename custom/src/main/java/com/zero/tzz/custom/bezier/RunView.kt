@@ -8,7 +8,9 @@ import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
 import kotlin.math.cos
+import kotlin.math.pow
 import kotlin.math.sin
+import kotlin.math.sqrt
 
 /**
  *
@@ -27,15 +29,10 @@ class RunView : View {
         defStyleAttr
     )
 
-    constructor(
-        context: Context?,
-        attrs: AttributeSet?,
-        defStyleAttr: Int,
-        defStyleRes: Int
-    ) : super(context, attrs, defStyleAttr, defStyleRes)
-
     private val mPaint = Paint()
     private val mPath = Path()
+    private var mCenterRadius = 240f
+    private var mRunballRadius = 20f
 
     init {
         mPaint.isAntiAlias = true
@@ -64,7 +61,7 @@ class RunView : View {
     private fun drawCenter(canvas: Canvas) {
         mPaint.color = Color.GREEN
         mPaint.style = Paint.Style.FILL
-        canvas.drawCircle(0f, 0f, 240f, mPaint)
+        canvas.drawCircle(0f, 0f, mCenterRadius, mPaint)
     }
 
     val angle = 30f
@@ -81,7 +78,7 @@ class RunView : View {
         canvas.drawPath(mPath, mPaint)
 
         mPaint.style = Paint.Style.FILL
-        canvas.drawCircle(mCurrentPos[0], mCurrentPos[1], 20f, mPaint)
+        canvas.drawCircle(mCurrentPos[0], mCurrentPos[1], mRunballRadius, mPaint)
     }
 
     private var mCurrentPos = FloatArray(2)
@@ -91,14 +88,25 @@ class RunView : View {
         val anim = ValueAnimator.ofFloat(0f, pathMeasure.length)
         anim.addUpdateListener {
             val value = it.animatedValue as Float
-            Log.d(TAG, "run: $value")
             pathMeasure.getPosTan(value, mCurrentPos, null)
-            invalidate()
+            if (!checkIntersect()) {
+                invalidate()
+            }
         }
         anim.interpolator = LinearInterpolator()
         anim.repeatMode = ValueAnimator.RESTART
         anim.repeatCount = ValueAnimator.INFINITE
-        anim.duration = 5000
+        anim.duration = 3000
         anim.start()
+    }
+
+    private fun checkIntersect(): Boolean {
+        val x = mCurrentPos[0]
+        val y = mCurrentPos[1]
+        val tempPosX = x / cos(angle) - (cos(angle.toDouble()) * rectF.height() / 2).toFloat()
+        val tempPosY = y / sin(angle) - (sin(angle.toDouble()) * rectF.height() / 2).toFloat()
+        val centerOfCircleDistance = sqrt(tempPosX.pow(2) + tempPosY.pow(2))
+        Log.d(TAG, "checkIntersect: $x, $y, $centerOfCircleDistance")
+        return centerOfCircleDistance in 0f..(mCenterRadius + mRunballRadius)
     }
 }

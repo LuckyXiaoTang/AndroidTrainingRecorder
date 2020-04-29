@@ -7,7 +7,7 @@ android {
 
 
     defaultConfig {
-        applicationId "com.zero.tzz.gles"
+        applicationId "com.zero.tzz.gles2"
         minSdkVersion 21
         targetSdkVersion 22
         versionCode 1

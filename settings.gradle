@@ -1,2 +1,2 @@
-include ':permission', ':baselib', ':custom', ':video', ':gles', ':coroutine'
+include ':permission', ':baselib', ':custom', ':video', ':gles2.0', ':coroutine', ':gles3.0'
 rootProject.name='AndroidTrainingRecorder'
