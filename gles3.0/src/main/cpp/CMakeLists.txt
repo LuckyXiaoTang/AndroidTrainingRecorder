@@ -13,6 +13,8 @@ set(src-files
         render/EGLRender.cpp
         render/GLRenderContext.cpp
         sample/TriangleSample.cpp
+        sample/TextureMapSample.cpp
+        sample/NV21TextureMapSample.cpp
         utils/GLUtil.cpp
 )
 

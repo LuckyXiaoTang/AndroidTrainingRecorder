@@ -39,18 +39,58 @@ GLuint GLUtil::CreateProgram(const char *pVertexShaderSource, const char *pFragm
     if (!vertexShaderHandle)return program;
     fragmentShaderHandle = LoadShader(GL_FRAGMENT_SHADER, pFragmentShaderSource);
     if (!fragmentShaderHandle)return program;
-    return 0;
+    program = glCreateProgram();
+    if (program) {
+        glAttachShader(program, vertexShaderHandle);
+        CheckGLError("glAttachShader");
+        glAttachShader(program, fragmentShaderHandle);
+        CheckGLError("glAttachShader");
+        glLinkProgram(program);
+        GLint linkStatus = GL_FALSE;
+        glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
+
+        glDetachShader(program, vertexShaderHandle);
+        glDeleteShader(vertexShaderHandle);
+        vertexShaderHandle = 0;
+        glDetachShader(program, fragmentShaderHandle);
+        glDeleteShader(fragmentShaderHandle);
+        fragmentShaderHandle = 0;
+        if (linkStatus != GL_TRUE) {
+            GLint bufLength = 0;
+            glGetProgramiv(program, GL_INFO_LOG_LENGTH, &bufLength);
+            if (bufLength) {
+                char *buf = (char *) malloc((size_t) bufLength);
+                if (buf) {
+                    glGetProgramInfoLog(program, bufLength, NULL, buf);
+                    LOGE("GLUtils::CreateProgram Could not link program:\n%s\n", buf);
+                    free(buf);
+                }
+            }
+            glDeleteProgram(program);
+            program = GL_NONE;
+        }
+    }
+    LOGE("GLUtils::CreateProgram program = %d", program);
+    return program;
 }
 
 GLuint GLUtil::CreateProgram(const char *pVertexShaderSource, const char *pFragmentShaderSource) {
-    return 0;
+    GLuint vertexShaderHandle, fragmentShaderHandle;
+    return CreateProgram(pVertexShaderSource,pFragmentShaderSource,vertexShaderHandle,fragmentShaderHandle);
 }
 
 void GLUtil::DeleteProgram(GLuint &program) {
-
+    LOGE("GLUtils::DeleteProgram");
+    if (program) {
+        glUseProgram(GL_NONE);
+        glDeleteProgram(program);
+        program = GL_NONE;
+    }
 }
 
 void GLUtil::CheckGLError(const char *pGLOperation) {
-
+    for (GLint error = glGetError(); error; error = glGetError()) {
+        LOGE("GLUtils::CheckGLError GL Operation %s() glError (0x%x)\n", pGLOperation, error);
+    }
 }
 

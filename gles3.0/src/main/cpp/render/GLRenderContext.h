@@ -22,13 +22,18 @@ public:
 
     void OnDrawFrame();
 
+    void SetParamsInt(int position);
+
+    void SetImageData(int format, int width, int height, uint8_t *pData);
+
     static GLRenderContext *GetInstance();
 
     static void DestoryInstance();
 
 private:
     static GLRenderContext *m_pContext;
-    GLSampleBase *m_Sample;
+    GLSampleBase *m_pBeforeSample;
+    GLSampleBase *m_pCurrentSample;
     int m_ScreenW;
     int m_ScreenH;
 };

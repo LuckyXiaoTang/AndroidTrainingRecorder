@@ -15,11 +15,11 @@ public:
 
     ~TriangleSample();
 
-    virtual void Init() = 0;
+    virtual void Init();
 
-    virtual void Draw(int width, int height) = 0;
+    virtual void Draw(int width, int height);
 
-    virtual void Destory() = 0;
+    virtual void Destroy();
 };
 
 

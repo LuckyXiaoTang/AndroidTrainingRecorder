@@ -27,10 +27,14 @@ class SimpleGLSurfaceView : GLSurfaceView {
         mNativeRender = NativeRender()
         mGLRender = SimpleGLRender(mNativeRender)
         setRenderer(mGLRender)
-        renderMode = RENDERMODE_CONTINUOUSLY
+        renderMode = RENDERMODE_WHEN_DIRTY
     }
 
-    inner class SimpleGLRender(var mNativeRender: NativeRender) : Renderer {
+    fun unInit() {
+        mGLRender.unInit()
+    }
+
+    inner class SimpleGLRender(private var mNativeRender: NativeRender) : Renderer {
         override fun onDrawFrame(gl: GL10?) {
             Log.d(TAG, "onDrawFrame() called with: gl = [$gl]")
             mNativeRender.native_OnDrawFrame()
@@ -45,5 +49,21 @@ class SimpleGLSurfaceView : GLSurfaceView {
             Log.d(TAG, "onSurfaceCreated() called with: gl = [$gl], config = [$config]")
             mNativeRender.native_OnSurfaceCreated()
         }
+
+        fun setParamsInt(position:Int) {
+            mNativeRender.native_SetParamsInt(position)
+        }
+
+        fun setImageData(format: Int, width: Int, height: Int, array: ByteArray?) {
+            mNativeRender.native_SetImageData(format, width, height, array)
+        }
+
+        fun unInit() {
+            mNativeRender.native_Init()
+        }
+    }
+
+    fun getRender():SimpleGLRender {
+        return mGLRender
     }
 }

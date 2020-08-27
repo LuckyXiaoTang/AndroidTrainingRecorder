@@ -2,7 +2,8 @@
 // Created by Terry on 2020/4/29.
 //
 #include <jni.h>
-#include "utils/LogUtil.h"
+#include "LogUtil.h"
+#include "GLRenderContext.h"
 
 #define NATIVE_RENDER_CLASS_NAME "com/zero/tzz/gles3/NativeRender"
 
@@ -11,23 +12,38 @@
 extern "C" {
 #endif
 JNIEXPORT void JNICALL native_Init(JNIEnv *env, jobject thiz) {
-
+    GLRenderContext::GetInstance();
 }
 
 JNIEXPORT void JNICALL native_UnInit(JNIEnv *env, jobject thiz) {
-
+    GLRenderContext::DestoryInstance();
 }
 
 JNIEXPORT void JNICALL native_OnSurfaceCreated(JNIEnv *env, jobject thiz) {
-
+    GLRenderContext::GetInstance()->OnSurfaceCreated();
 }
 
-JNIEXPORT void JNICALL native_OnSurfaceChanged(JNIEnv *env, jint width, jint height, jobject thiz) {
-
+JNIEXPORT void JNICALL native_OnSurfaceChanged(JNIEnv *env, jobject thiz, jint width, jint height) {
+    GLRenderContext::GetInstance()->OnSurfaceChanged(width, height);
 }
 
 JNIEXPORT void JNICALL native_OnDrawFrame(JNIEnv *env, jobject thiz) {
+    GLRenderContext::GetInstance()->OnDrawFrame();
+}
 
+JNIEXPORT void JNICALL native_SetParamsInt(JNIEnv *env, jobject thiz, jint position) {
+    GLRenderContext::GetInstance()->SetParamsInt(position);
+}
+
+JNIEXPORT void JNICALL
+native_SetImageData(JNIEnv *env, jobject thiz, jint format, jint width, jint height,
+                    jbyteArray imageData) {
+    int len = env->GetArrayLength(imageData);
+    auto *buf = new uint8_t[len];
+    env->GetByteArrayRegion(imageData, 0, len, reinterpret_cast<jbyte *>(buf));
+    GLRenderContext::GetInstance()->SetImageData(format, width, height, buf);
+    delete[] buf;
+    env->DeleteLocalRef(imageData);
 }
 
 #ifdef __cplusplus
@@ -35,11 +51,13 @@ JNIEXPORT void JNICALL native_OnDrawFrame(JNIEnv *env, jobject thiz) {
 #endif
 
 static JNINativeMethod gl_RenderMethods[] = {
-        {"native_Init",             "()V",   (void *) native_Init},
-        {"native_UnInit",           "()V",   (void *) native_UnInit},
-        {"native_OnSurfaceCreated", "()V",   (void *) native_OnSurfaceCreated},
-        {"native_OnSurfaceChanged", "(II)V", (void *) native_OnSurfaceChanged},
-        {"native_OnDrawFrame",      "()V",   (void *) native_OnDrawFrame}
+        {"native_Init",             "()V",      (void *) native_Init},
+        {"native_UnInit",           "()V",      (void *) native_UnInit},
+        {"native_OnSurfaceCreated", "()V",      (void *) native_OnSurfaceCreated},
+        {"native_OnSurfaceChanged", "(II)V",    (void *) native_OnSurfaceChanged},
+        {"native_OnDrawFrame",      "()V",      (void *) native_OnDrawFrame},
+        {"native_SetParamsInt",     "(I)V",     (void *) native_SetParamsInt},
+        {"native_SetImageData",     "(III[B)V", (void *) native_SetImageData}
 };
 
 static int RegisterNativeMethods(JNIEnv *env, const char *className,

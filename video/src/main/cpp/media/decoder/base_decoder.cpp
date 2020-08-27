@@ -136,7 +136,7 @@ void BaseDecoder::loopDecode() {
                 ) {
             wait();
             // 同步起始时间，去除等待流失的时间
-            m_started_t =
+//            m_started_t =
         }
     }
 }

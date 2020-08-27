@@ -1,4 +1,4 @@
-package com.zero.tzz.gles3
+package com.zero.tzz.libcamera
 
 import org.junit.Test
 
